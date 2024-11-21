@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "rag-app"
+version = "0.1.0"
+description = ""
+authors = ["aliosmankaya <aokaya16@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.115.5"
+langchain-community = "^0.3.7"
+pymilvus = "^2.4.9"
+sentence-transformers = "^3.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
