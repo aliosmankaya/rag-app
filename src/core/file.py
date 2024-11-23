@@ -7,55 +7,51 @@ from .db import DB
 
 
 class FileManager:
-    def __init__(self, file_name: str, filetype: str):
-        self.file_name = file_name
-        self.filetype = filetype
-        self.files = []
-        self.text_lines = []
+    def __init__(self, name: str):
+        self.name = name
         self.model = SentenceTransformer("BAAI/bge-small-en-v1.5")
-        self.prompt = ""
-
-    def load(self):
-        loader = {"pdf": PyPDFLoader, "csv": CSVLoader}[self.filetype]
-        file_path = f"src/file/{self.file_name}"
-        self.files = loader(file_path).load()
-
-    def split(self):
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000, chunk_overlap=200
-        )
-        chunks = text_splitter.split_documents(self.files)
-        self.text_lines = [chunk.page_content for chunk in chunks]
 
     @staticmethod
-    def embed_text(model, text):
+    def embed(model, text):
         return model.encode([text], normalize_embeddings=True).tolist()[0]
 
     def embed_texts(self):
-        DB.create_collection(name=self.file_name, dim=384)
+        filetype = self.name.split(".")[-1]
+        loader = {"pdf": PyPDFLoader, "csv": CSVLoader}[filetype]
+        file_path = f"src/file/{self.name}"
+        files = loader(file_path).load()
+
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000, chunk_overlap=200
+        )
+        chunks = text_splitter.split_documents(files)
+        text_lines = [chunk.page_content for chunk in chunks]
 
         data = []
-        for i, line in enumerate(tqdm(self.text_lines, desc="Creating embeddings")):
+        for i, line in enumerate(tqdm(text_lines, desc="Creating embeddings")):
             data.append(
                 {
                     "id": i,
-                    "vector": self.embed_text(model=self.model, text=line),
+                    "vector": self.embed(model=self.model, text=line),
                     "text": line,
                 }
             )
 
-        DB.insert_collection(name=self.file_name, data=data)
+        DB.insert_collection(name=self.name, data=data)
 
-    def prompt(self, question: str, limit: int = 3):
-        retrieved = DB.search(
-            name=self.file_name,
-            data=self.embed_text(model=self.model, text=question),
+    def search(self, question: str, limit: int = 3):
+        return DB.search(
+            name=self.name,
+            data=self.embed(model=self.model, text=question),
             limit=limit,
         )
 
+    def prompt(self, question: str, limit: int = 3):
+        retrieved = self.search(question=question, limit=limit)
+
         context = "\n".join([r["entity"]["text"] for r in retrieved[0]])
 
-        self.prompt = """
+        return """
         Use the following pieces of information enclosed in <context> \
         tags to provide an answer to the question enclosed in <question> \
         tags.

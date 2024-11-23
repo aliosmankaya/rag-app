@@ -2,4 +2,6 @@ from pydantic import BaseModel
 
 
 class Search(BaseModel):
-    search: str
+    name: str
+    question: str
+    limit: int = 3

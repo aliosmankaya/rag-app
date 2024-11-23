@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 @router.post("/upload")
-async def upload_service(file: UploadFile = File(...)):
+def upload_service(file: UploadFile = File(...)):
     file_path = f"src/file/{file.filename}"
     with open(file_path, "wb") as buffer:
         buffer.write(file.file.read())
