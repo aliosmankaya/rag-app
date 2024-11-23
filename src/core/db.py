@@ -1,7 +1,11 @@
+import os
 from pymilvus import MilvusClient
 
 
 class DB:
+    path = f"{os.path.abspath(os.curdir)}/src/db"
+    if not os.path.exists(path):
+        os.makedirs(path)
     client = MilvusClient("src/db/milvus.db")
 
     @classmethod

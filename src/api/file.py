@@ -7,6 +7,11 @@ from ..parser.file import Update, Delete
 router = APIRouter()
 
 
+path = f"{os.path.abspath(os.curdir)}/src/file"
+if not os.path.exists(path):
+    os.makedirs(path)
+
+
 @router.post("/upload")
 def upload_service(file: UploadFile = File(...)):
     file_path = f"src/file/{file.filename}"
