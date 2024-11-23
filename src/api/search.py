@@ -7,7 +7,7 @@ from ..core.file import FileManager
 router = APIRouter()
 
 
-@router.get("/search")
+@router.post("/search")
 def search(params: Search):
     retrieved = FileManager(name=params.name).search(
         question=params.question, limit=params.limit

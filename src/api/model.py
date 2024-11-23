@@ -7,7 +7,7 @@ from ..core.model import ModelManager
 router = APIRouter()
 
 
-@router.get("/model")
+@router.post("/model")
 def model(params: Model):
     output = ModelManager(name=params.name, question=params.question).generate()
     return JSONResponse(content=output, status_code=200)

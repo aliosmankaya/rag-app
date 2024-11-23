@@ -28,7 +28,7 @@ class DB:
     def search(cls, name: str, data: list, limit: int):
         return cls.client.search(
             collection_name=name,
-            data=data,
+            data=[data],
             limit=limit,
             search_params={"metric_type": "IP", "params": {}},
             output_fields=["text"],
