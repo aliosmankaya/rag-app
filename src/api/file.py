@@ -2,6 +2,8 @@ import os
 from fastapi import APIRouter, UploadFile, File
 from fastapi.responses import JSONResponse
 
+from ..parser.file import Update, Delete
+
 router = APIRouter()
 
 
@@ -21,14 +23,14 @@ def list_files():
 
 
 @router.put("/update")
-def update_file(file_name: str, new_name: str):
+def update_file(params: Update):
     file_path = "src/file/"
-    os.rename(file_path + file_name, file_path + new_name)
+    os.rename(file_path + params.file_name, file_path + params.new_name)
     return JSONResponse(content="Updated successfully", status_code=200)
 
 
 @router.delete("/delete")
-def delete_file(file_name: str):
-    file_path = f"src/file/{file_name}"
+def delete_file(params: Delete):
+    file_path = f"src/file/{params.file_name}"
     os.remove(file_path)
     return JSONResponse(content="Deleted successfully", status_code=200)

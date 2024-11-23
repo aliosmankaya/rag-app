@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from llm import router as llm_router
+from model import router as llm_router
 from search import router as search_router
 from file import router as upload_router
 
