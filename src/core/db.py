@@ -17,11 +17,11 @@ class DB:
         )
 
     @classmethod
-    def insert(cls, name: str, data: list):
+    def insert_collection(cls, name: str, data: list):
         cls.client.upsert(collection_name=name, data=data)
 
     @classmethod
-    def list_collections(cls):
+    def list_collection(cls):
         return cls.client.list_collections()
 
     @classmethod
@@ -39,5 +39,5 @@ class DB:
         cls.client.rename_collection(old_name=name, new_name=new_name)
 
     @classmethod
-    def delete(cls, name: str):
+    def delete_collection(cls, name: str):
         cls.client.delete(collection_name=name)

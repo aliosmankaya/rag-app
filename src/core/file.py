@@ -6,25 +6,25 @@ from sentence_transformers import SentenceTransformer
 from .db import DB
 
 
-class DocManager:
-    def __init__(self, file_name: str, doctype: str):
+class FileManager:
+    def __init__(self, file_name: str, filetype: str):
         self.file_name = file_name
-        self.doctype = doctype
-        self.docs = []
+        self.filetype = filetype
+        self.files = []
         self.text_lines = []
         self.model = SentenceTransformer("BAAI/bge-small-en-v1.5")
         self.prompt = ""
 
     def load(self):
-        loader = {"pdf": PyPDFLoader, "csv": CSVLoader}[self.doctype]
+        loader = {"pdf": PyPDFLoader, "csv": CSVLoader}[self.filetype]
         file_path = f"src/file/{self.file_name}"
-        self.docs = loader(file_path).load()
+        self.files = loader(file_path).load()
 
     def split(self):
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000, chunk_overlap=200
         )
-        chunks = text_splitter.split_documents(self.docs)
+        chunks = text_splitter.split_documents(self.files)
         self.text_lines = [chunk.page_content for chunk in chunks]
 
     @staticmethod
@@ -44,7 +44,7 @@ class DocManager:
                 }
             )
 
-        DB.insert(name=self.file_name, data=data)
+        DB.insert_collection(name=self.file_name, data=data)
 
     def prompt(self, question: str, limit: int = 3):
         retrieved = DB.search(

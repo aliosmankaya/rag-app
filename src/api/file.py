@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 @router.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload_service(file: UploadFile = File(...)):
     file_path = f"src/file/{file.filename}"
     with open(file_path, "wb") as buffer:
         buffer.write(file.file.read())
@@ -16,21 +16,21 @@ async def upload(file: UploadFile = File(...)):
 
 
 @router.get("/list")
-def list_files():
+def list_service():
     files_path = "src/file"
     files = os.listdir(files_path)
     return JSONResponse(content=files, status_code=200)
 
 
 @router.put("/update")
-def update_file(params: Update):
+def update_service(params: Update):
     file_path = "src/file/"
     os.rename(file_path + params.file_name, file_path + params.new_name)
     return JSONResponse(content="Updated successfully", status_code=200)
 
 
 @router.delete("/delete")
-def delete_file(params: Delete):
+def delete_service(params: Delete):
     file_path = f"src/file/{params.file_name}"
     os.remove(file_path)
     return JSONResponse(content="Deleted successfully", status_code=200)
