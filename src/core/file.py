@@ -1,3 +1,4 @@
+import os
 from tqdm import tqdm
 from langchain_community.document_loaders import PyPDFLoader, CSVLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -16,9 +17,12 @@ class FileManager:
         return model.encode([text], normalize_embeddings=True).tolist()[0]
 
     def embed_texts(self):
-        filetype = self.name.split(".")[-1]
+        filetype = self.name.split("_")[-1]
         loader = {"pdf": PyPDFLoader, "csv": CSVLoader}[filetype]
-        file_path = f"src/file/{self.name}"
+
+        filename = "_".join(self.name.split("_")[:-1]) + "." + filetype
+        root_path = os.path.abspath(os.curdir)
+        file_path = f"{root_path}/src/file/{filename}"
         files = loader(file_path).load()
 
         text_splitter = RecursiveCharacterTextSplitter(
