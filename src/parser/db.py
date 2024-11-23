@@ -6,7 +6,8 @@ class Create(BaseModel):
     dim: int = 384
 
     @field_validator("name")
-    def replace(self, v: str) -> str:
+    @classmethod
+    def replace(cls, v: str) -> str:
         return v.replace(".", "_")
 
 
@@ -14,7 +15,8 @@ class Insert(BaseModel):
     name: str
 
     @field_validator("name")
-    def replace(self, v: str) -> str:
+    @classmethod
+    def replace(cls, v: str) -> str:
         return v.replace(".", "_")
 
 
@@ -23,7 +25,8 @@ class Update(BaseModel):
     new_name: str
 
     @field_validator("name", "new_name")
-    def replace(self, v: str) -> str:
+    @classmethod
+    def replace(cls, v: str) -> str:
         return v.replace(".", "_")
 
 
@@ -31,5 +34,6 @@ class Delete(BaseModel):
     name: str
 
     @field_validator("name")
-    def replace(self, v: str) -> str:
+    @classmethod
+    def replace(cls, v: str) -> str:
         return v.replace(".", "_")

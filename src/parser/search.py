@@ -7,5 +7,6 @@ class Search(BaseModel):
     limit: int = 3
 
     @field_validator("name")
-    def replace(self, v: str) -> str:
+    @classmethod
+    def replace(cls, v: str) -> str:
         return v.replace(".", "_")

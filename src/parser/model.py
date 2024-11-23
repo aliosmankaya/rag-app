@@ -6,5 +6,6 @@ class Model(BaseModel):
     question: str
 
     @field_validator("name")
-    def replace(self, v: str) -> str:
+    @classmethod
+    def replace(cls, v: str) -> str:
         return v.replace(".", "_")
