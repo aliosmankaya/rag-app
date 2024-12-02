@@ -1,5 +1,3 @@
-Here is the updated `README.md` file with the Apache 2.0 license:
-
 ---
 
 # RAG App: A Customizable Retrieval-Augmented Generation Application
