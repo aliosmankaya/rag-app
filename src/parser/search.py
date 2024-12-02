@@ -3,7 +3,7 @@ from pydantic import BaseModel, field_validator
 
 class Search(BaseModel):
     name: str
-    question: str
+    search: str
     limit: int = 3
 
     @field_validator("name")
