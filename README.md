@@ -1,5 +1,3 @@
----
-
 # RAG App: A Customizable Retrieval-Augmented Generation Application
 
 RAG App is a Python-based application designed to enhance natural language understanding by incorporating document retrieval capabilities. It uses Retrieval-Augmented Generation (RAG) to answer queries based on private and previously unseen document collections, enabling accurate and contextual responses.
