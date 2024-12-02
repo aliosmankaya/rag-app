@@ -55,16 +55,20 @@ class FileManager:
 
         context = "\n".join([r["entity"]["text"] for r in retrieved[0]])
 
-        return """
-        Use the following pieces of information enclosed in <context> \
-        tags to provide an answer to the question enclosed in <question> \
-        tags.
-        <context>
+        prompt = f"""
+        [Instruction]
+        You are an assistant designed to help users understand documents by answering their questions based solely on the content of the document. If the answer cannot be found in the document, respond with, "The document does not provide this information."
+
+        [Document Context]
+        ---
         {context}
-        </context>
-        <question>
-        {question}
-        </question>
-        """.format(
-            context=context, question=question
-        )
+        ---
+
+        [User Query]
+        Question: {question}
+
+        [Output Section]
+        Answer:
+        """
+
+        return prompt

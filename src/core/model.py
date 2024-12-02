@@ -20,4 +20,10 @@ class ModelManager:
         outputs = model.generate(
             inputs, max_new_tokens=100, temperature=0.2, top_p=0.9, do_sample=True
         )
-        return tokenizer.decode(outputs[0])
+        output = tokenizer.decode(outputs[0])
+
+        answer_start = output.find("Answer:") + len("Answer:")
+        response = output[answer_start:]
+        response = " ".join(response.replace("\n", " ").strip().split())
+
+        return response
