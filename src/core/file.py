@@ -5,12 +5,13 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
 
 from .db import DB
+from ..config import settings
 
 
 class FileManager:
     def __init__(self, name: str):
         self.name = name
-        self.model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+        self.model = SentenceTransformer(settings.file.model)
 
     @staticmethod
     def embed(model, text):
@@ -22,11 +23,12 @@ class FileManager:
 
         filename = "_".join(self.name.split("_")[:-1]) + "." + filetype
         root_path = os.path.abspath(os.curdir)
-        file_path = f"{root_path}/src/file/{filename}"
+        file_path = f"{root_path}/{settings.file.path}{filename}"
         files = loader(file_path).load()
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000, chunk_overlap=200
+            chunk_size=settings.file.chunk_size,
+            chunk_overlap=settings.file.chunk_overlap,
         )
         chunks = text_splitter.split_documents(files)
         text_lines = [chunk.page_content for chunk in chunks]
@@ -43,15 +45,15 @@ class FileManager:
 
         DB.insert_collection(name=self.name, data=data)
 
-    def search(self, question: str, limit: int = 3):
+    def search(self, search: str, limit: int = settings.file.limit):
         return DB.search(
             name=self.name,
-            data=self.embed(model=self.model, text=question),
+            data=self.embed(model=self.model, text=search),
             limit=limit,
         )
 
-    def prompt(self, question: str, limit: int = 3):
-        retrieved = self.search(question=question, limit=limit)
+    def prompt(self, question: str, limit: int = settings.file.limit):
+        retrieved = self.search(search=question, limit=limit)
 
         context = "\n".join([r["entity"]["text"] for r in retrieved[0]])
 

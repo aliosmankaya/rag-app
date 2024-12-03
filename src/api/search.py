@@ -10,6 +10,6 @@ router = APIRouter()
 @router.post("/search")
 def search(params: Search):
     retrieved = FileManager(name=params.name).search(
-        question=params.question, limit=params.limit
+        search=params.search, limit=params.limit
     )
     return JSONResponse(content=retrieved, status_code=200)

@@ -1,0 +1,15 @@
+[db]
+path = "src/db/"
+
+[file]
+path = "src/file/"
+model = "BAAI/bge-small-en-v1.5"
+chunk_size = 100
+chunk_overlap = 20
+limit = 20
+
+[model]
+name = "HuggingFaceTB/SmolLM2-135M-Instruct"
+max_new_token = 100
+temperature = 0.7
+top_p = 0.6

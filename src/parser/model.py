@@ -4,6 +4,7 @@ from pydantic import BaseModel, field_validator
 class Model(BaseModel):
     name: str
     question: str
+    limit: int
 
     @field_validator("name")
     @classmethod

@@ -1,12 +1,15 @@
 import os
 from pymilvus import MilvusClient
 
+from ..config import settings
+
 
 class DB:
-    path = f"{os.path.abspath(os.curdir)}/src/db"
+    path = settings.db.path
+
     if not os.path.exists(path):
         os.makedirs(path)
-    client = MilvusClient("src/db/milvus.db")
+    client = MilvusClient(f"{path}milvus.db")
 
     @classmethod
     def create_collection(cls, name: str, dim: int):
@@ -44,4 +47,4 @@ class DB:
 
     @classmethod
     def delete_collection(cls, name: str):
-        cls.client.delete(collection_name=name)
+        cls.client.drop_collection(collection_name=name)

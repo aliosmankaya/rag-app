@@ -9,5 +9,7 @@ router = APIRouter()
 
 @router.post("/model")
 def model(params: Model):
-    output = ModelManager(name=params.name, question=params.question).generate()
+    output = ModelManager(
+        name=params.name, question=params.question, limit=params.limit
+    ).generate()
     return JSONResponse(content=output, status_code=200)
