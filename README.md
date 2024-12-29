@@ -16,6 +16,41 @@ RAG App is a Python-based application designed to enhance natural language under
    poetry install
    ```
 
+## Project Tree
+
+```
+📦 rag-app
+├─ .gitignore
+├─ LICENSE
+├─ README.md
+├─ assets
+│  └─ image.webp
+├─ main.py
+├─ poetry.lock
+├─ pyproject.toml
+├─ settings.toml
+└─ src
+   ├─ __init__.py
+   ├─ api
+   │  ├─ __init__.py
+   │  ├─ db.py
+   │  ├─ file.py
+   │  ├─ model.py
+   │  └─ search.py
+   ├─ config.py
+   ├─ core
+   │  ├─ __init__.py
+   │  ├─ db.py
+   │  ├─ file.py
+   │  └─ model.py
+   └─ parser
+      ├─ __init__.py
+      ├─ db.py
+      ├─ file.py
+      ├─ model.py
+      └─ search.py
+```
+
 ## Usage
 
 1. **Run the Application:**
