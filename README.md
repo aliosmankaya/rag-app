@@ -1,13 +1,8 @@
 # RAG App: A Customizable Retrieval-Augmented Generation Application
 
-RAG App is a Python-based application designed to enhance natural language understanding by incorporating document retrieval capabilities. It uses Retrieval-Augmented Generation (RAG) to answer queries based on private and previously unseen document collections, enabling accurate and contextual responses.
+![](assets/image.webp)
 
-## Features
-
-- **Document Loading:** Seamlessly load and preprocess text documents for analysis.
-- **Customizable Retrieval Parameters:** Supports tuning retrieval backends like FAISS, Milvus, or any compatible vector database.
-- **Flexible Language Model Integration:** Use any Hugging Face-compatible language model for query generation.
-- **Contextual Q&A:** Dynamically answers questions based solely on the loaded document's content.
+RAG App is a Python-based application designed to enhance natural language understanding by incorporating document (PDF/CSV) retrieval capabilities. It uses Retrieval-Augmented Generation (RAG) to answer queries based on private and previously unseen document collections, enabling accurate and contextual responses.
 
 ## Installation
 
@@ -27,14 +22,61 @@ RAG App is a Python-based application designed to enhance natural language under
    ```bash
    python main.py
    ```
-2. **Query the Document:**
-   - Load your document into the application.
-   - Ask a query related to the document.
-   - Receive a contextually relevant response.
+2. **File Operations:**
+   - Upload File
+     - POST /upload
+       - Upload a file with multipart/form-data (PDF/CSV).
+       - Response: { "Uploaded successfully." }
+   - List Files
+     - GET /list
+       - Retrieve all uploaded files.
+       - Response: [ *files ]
+   - Update File
+     - PUT /update
+       - Update an existing file with multipart/form-data.
+       - Response: { "Updated successfully." }
+   - Delete File
+     - DELETE /delete
+       - Delete a file.
+       - Response: { "Deleted successfully." }
 
-## Configuration
+3. **Database Operations:**
+   - Create Vector DB Collection
+     - POST /create
+       - Create a vector database collection.
+       - Response: { "Created successfully." }
+   - Insert File to Collection
+     - POST /insert
+       - Insert embeddings of the file to the collection.
+       - Response: { "Inserted successfully." }
+   - List Collections
+     - GET /list
+       - Retrieve all uploaded collections.
+       - Response: [ *collections ]
+   - Update Collection
+     - PUT /update
+       - Update an existing collection.
+       - Response: { "Updated successfully." }
+   - Delete Collection
+     - DELETE /delete
+       - Delete a collection.
+       - Response: { "Deleted successfully." }
 
-- Modify `config.json` to adjust retrieval or generation parameters.
+4. **Search:**
+   - Search relevant chunks (part of the file)
+     - POST /search
+       - Search with a query on the file.
+       - Response: [ *chunks ]
+
+5. **Model:**
+   - Question answering powered by a LLM model using RAG
+     - POST /model
+       - Asking question about the file and answering by a LLM.
+       - Response: { "..." }
+
+## Customization & Configuration
+
+- Modify `settings.toml` to adjust retrieval or generation parameters.
 - Update `pyproject.toml` for dependency management.
 
 ## Contributions
